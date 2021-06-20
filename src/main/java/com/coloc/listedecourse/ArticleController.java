@@ -2,37 +2,28 @@ package com.coloc.listedecourse;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("/api/article")
+@RequestMapping
 public class ArticleController {
 
 	@Autowired
 	private ArticleService articleService;
 
 	@PostMapping
-	public ResponseEntity<Void> create(@RequestBody ArticleDTO article, UriComponentsBuilder componentBuilder) {
-		System.out.println();
+	public ResponseEntity<Void> create(@RequestBody ArticleDTO article) {
 		Long id = articleService.create(article);
-		UriComponents component = componentBuilder.path("/api/article/{id}").buildAndExpand(id);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(component.toUri());
-
-		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+		return new ResponseEntity<Void>(HttpStatus.CREATED);
 
 	}
 
@@ -42,7 +33,7 @@ public class ArticleController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ArticleDTO> getById(@PathParam("id") Long id) {
+	public ResponseEntity<ArticleDTO> getById(@PathVariable("id") Long id) {
 		try {
 			return ResponseEntity.ok(articleService.getById(id));
 		} catch (ArticleNotFoundException e) {
@@ -58,7 +49,7 @@ public class ArticleController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteById(@PathParam(value = "id") Long id) {
+	public ResponseEntity<Void> deleteById(@PathVariable("id") Long id) {
 		articleService.deleteById(id);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
