@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +26,7 @@ public class ArticleController {
 
 	@PostMapping
 	public ResponseEntity<Void> create(@RequestBody ArticleDTO article, UriComponentsBuilder componentBuilder) {
-
+		System.out.println();
 		Long id = articleService.create(article);
 		UriComponents component = componentBuilder.path("/api/article/{id}").buildAndExpand(id);
 		HttpHeaders headers = new HttpHeaders();
@@ -48,6 +49,18 @@ public class ArticleController {
 			return new ResponseEntity<ArticleDTO>(HttpStatus.NOT_FOUND);
 		}
 
+	}
+
+	@DeleteMapping
+	public ResponseEntity<Void> deleteAll() {
+		articleService.deleteAll();
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteById(@PathParam(value = "id") Long id) {
+		articleService.deleteById(id);
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
 }

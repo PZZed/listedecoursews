@@ -32,4 +32,12 @@ public class ArticleService {
 		throw new ArticleNotFoundException(String.format("L'article avec l'id : {id} n'existe pas", id));
 	}
 
+	public void deleteAll() {
+		articleRepository.deleteAll();
+	}
+
+	public void deleteById(Long id) {
+		articleRepository.deleteById(id);
+	}
+
 }
