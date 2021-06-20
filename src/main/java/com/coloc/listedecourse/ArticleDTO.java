@@ -6,6 +6,6 @@ import lombok.Data;
 public class ArticleDTO {
 	private Long id;
 	private String name;
-	private String categorie;
+	private String category;
 	private Integer quantity;
 }

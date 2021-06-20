@@ -18,7 +18,7 @@ public class Article {
 	@Column(nullable = false)
 	private String name;
 
-	private String categorie;
+	private String category;
 
 	private Integer quantity;
 }
